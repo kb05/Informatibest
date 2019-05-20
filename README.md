@@ -1,6 +1,6 @@
 ##  Informatibest
 
-A Fish theme based on the default Informative theme, but better ....
+A Fish theme based on the Informative theme, but better ....
 
 
 
