@@ -4,7 +4,7 @@ A Fish theme based on the Informative theme, but better ....
 
 
 
-![beloglazov-fish-theme](https://raw.githubusercontent.com/kb05/Informatibest/master/images/ExampleShell.png)
+![Informatibest-fish-theme](https://raw.githubusercontent.com/kb05/Informatibest/master/images/ExampleShell.png)
 
 
 #### Characteristics
