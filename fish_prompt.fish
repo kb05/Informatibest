@@ -34,9 +34,9 @@ set -g errorColor $red
 set -g rootUserColor $bold_red
 set -g UserColor $bold_blue
 
-
-
-
+#define pwd prefix
+set pwdPrefix '...'
+set pwdLimit 30
 
 #The prompt function
 function fish_prompt
@@ -77,7 +77,14 @@ function fish_prompt
 
   # Get the current path
   set _pwd (pwd)
-  set pwd $pwdColor(pwd)
+
+  # If the pwd string is too long will be shortened to the $pwdLimit (and add the $pwdPrefix before)
+  if [ (echo -n $_pwd | wc -m) -ge $pwdLimit ]
+  	 set _pwd $pwdPrefix (echo $_pwd| tail -c $pwdLimit| grep -o '\/.*');
+  end
+
+
+  set pwd $pwdColor $_pwd
 
   #Get the current branch name
   set git_branch_name (git_branch_name)
