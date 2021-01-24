@@ -1,4 +1,4 @@
-# name: beloglazov
+# name: Informatibest
 
 # This function return if any change exist in the git project
 function _is_git_dirty
@@ -13,6 +13,7 @@ set -g green (set_color green)
 set -g red (set_color -o red --bold)
 set -g brightred (set_color -o red)
 set -g blue (set_color -o blue)
+set -g orange (set_color FFA500 )
 set -g normal (set_color normal)
 set -g bold_blue (set_color 85dde0 --bold)
 set -g bold_cold_blue (set_color 6191b8 --bold)
@@ -24,15 +25,16 @@ set -g bold_ligh_green (set_color -o green --bold)
 
 
 # Define the colours of the characters
-set -g pwdColor $bold_green
+set -g pwdColor $green
 set -g timeColor $bold_white
 set -g gitMasterBranchColor $bold_yellow
+set -g gitDevelopBranchColor $orange
 set -g gitNormalBranchColor $bold_white
 set -g gitDirtyColor $bold_red
 set -g gitCleanColor $bold_green
 set -g errorColor $red
 set -g rootUserColor $bold_red
-set -g UserColor $bold_blue
+set -g UserColor $cyan
 
 #define pwd prefix
 set pwdPrefix '...'
@@ -51,7 +53,7 @@ function fish_prompt
         set  promptColor $errorColor
         set  errorInfo ' ' $errorColor  \[  $_last_status \] 
   else 
-        set  baseSBracketColor $bold_cold_blue 
+        set  baseSBracketColor $blue 
         set  promptColor $normal
         set  errorInfo ''
   end
@@ -66,13 +68,13 @@ function fish_prompt
 
   # Set a different color to the name and the hostname if the user is the root
   if [ 'root' = (whoami) ]
-      set userName $rootUserColor $USER @ (hostname)
+      set userName $rootUserColor $USER
   else
-      set userName $UserColor $USER @ (hostname)
+      set userName $UserColor $USER
   end
  
   # Get the current time
-  set _time (date "+%H:%M");
+  set _time (date "+%H:%M:%S");
   set time $timeColor $_time;
 
   # Get the current path
@@ -80,7 +82,7 @@ function fish_prompt
 
   # If the pwd string is too long will be shortened to the $pwdLimit (and add the $pwdPrefix before)
   if [ (echo -n $_pwd | wc -m) -ge $pwdLimit ]
-  	 set _pwd $pwdPrefix (echo $_pwd| tail -c $pwdLimit| grep -o '\/.*');
+     set _pwd $pwdPrefix (echo $_pwd| tail -c $pwdLimit| grep -o '\/.*');
   end
 
 
@@ -96,6 +98,8 @@ function fish_prompt
     # If the git branch is master appear indicated with another color
     if test $git_branch_name = "master"
       set git_branch $gitMasterBranchColor $git_branch_name
+    else if test $git_branch_name = "develop"
+      set git_branch $gitDevelopBranchColor  $git_branch_name
     else
       set git_branch $gitNormalBranchColor $git_branch_name
     end
@@ -109,7 +113,7 @@ function fish_prompt
 
 
    #Set the git_info with the information formatted
-   set git_info $baseRBracketColor $openRBracket $git_branch $git_status $closeRBracket 
+   set git_info $openSBracket " " $baseRBracketColor  $git_branch $git_status " " $closeSBracket
   end
 
 
@@ -121,14 +125,14 @@ function fish_prompt
   #write the hour (example: 13:00)
   ' ' $time  ' ' $closeSBracket ' ' \
   #Write the user and directory (example : luis@ubuntu:/home/luis)
-  $openSBracket ' ' $userName : $pwd ' ' \
+  $openSBracket ' ' $userName : $pwd " " $closeSBracket " " \
   #write the git info (Example: master ✔)
   $git_info \
-  #write the final ]
-  $closeSBracket \
   #write the error info ( [...] 127   *The error code)
   $errorInfo \f\r \
   #write the initial $
   $promptColor ' ' \$ ' '
+
+
 
 end
