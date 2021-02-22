@@ -139,3 +139,10 @@ end
 
 function fish_mode_prompt
 end
+
+function fish_user_key_bindings
+	fzf_key_bindings
+end
+
+
+test $TERM != "screen"; and exec tmux
